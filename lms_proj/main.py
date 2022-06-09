@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
-from tables import Base
+from lms_proj.models import Base
 
 from fastapi import FastAPI
 
@@ -10,6 +10,6 @@ Base.metadata.create_all(engine)
 
 app = FastAPI()
 
-@app.get('/')
-async def root():
+@app.post('/book')
+async def addBook():
     return {'message': 'Hello World'}

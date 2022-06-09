@@ -26,23 +26,31 @@
 It contains four tables.
 
 - Book: (Contains the book entries)
-    -   id
-    -   title
-    -   timesIssued
-    -   inv_id
+    -   id - Unique ID
+    -   title : Title of the book
+    -   timesIssued : No. of times this book was issued
+    -   inv_id : Foreign Key to Inventory referring to id
 
 - Inventory: (To store the inventory of available books)
-    -   id
-    -   title
-    -   stock
+    -   id - Unique ID
+    -   title : Title of the book
+    -   stock : Available no. of books of this title
 
 - Student: (To store the students added)
-    -   rollNo
-    -   booksIssued
+    -   rollNo - Roll No. of student(Also unique ID)
+    -   booksIssued - No. of books currently held
 
 - Issue: (To store the currently issued books)
-    -   id
-    -   title
-    -   book_id
-    -   issuedBy
-    
+    -   id - Unique ID
+    -   title : Title of the book
+    -   book_id : Foreign Key to Book table
+    -   issuedBy : Foreign  Key to Student table
+
+
+## Structure of Application:
+
+-   `main.py` - Deals with routing,
+-   `models.py` - To declare classes to create tables from ORM
+-   `schemas.py` - Schemas of the models for Pydantic's use
+-   `database.py` - To configure the database
+-   `crud.py` - Does all the operations given in PDF

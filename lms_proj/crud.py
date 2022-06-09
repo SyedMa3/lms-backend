@@ -17,8 +17,9 @@ def add_student(session: Session, student: schemas.StudentCreate):
     new_student = models.Student(rollNo = student.rollNo)
     session.add(new_student)
     session.commit()
-    
-    return
+    session.refresh(new_student)
+
+    return new_student
 
 def add_inventory(session: Session, title):
     new_inventory = models.Inventory(title = title)

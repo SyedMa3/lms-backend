@@ -1,7 +1,7 @@
 from . import models, crud, schemas
 from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
-from database import create_session, engine
+from .database import create_session, engine
 
 models.Base.metadata.create_all(engine)
 

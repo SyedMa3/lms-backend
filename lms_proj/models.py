@@ -8,7 +8,7 @@ class Book(Base):
     __tablename__ = 'book'
 
     id = Column(Integer, primary_key=True, index=True)
-    title = Column(String(30))
+    title = Column(String(30), unique=True)
     timesIssued = Column(Integer, default = 0)
     inv_id = Column(Integer, ForeignKey('inventory.id'))
 
@@ -21,7 +21,7 @@ class Book(Base):
 class Inventory(Base):
     __tablename__ = 'inventory'
     id = Column(Integer, primary_key=True, index=True)
-    title = Column(String(30))
+    title = Column(String(30), unique=True)
     stock = Column(Integer, default=1)
     
     books = relationship('Book', backref = 'inventory')

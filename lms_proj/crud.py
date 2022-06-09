@@ -6,8 +6,10 @@ def add_book(session: Session, book: schemas.BookCreate):
     new_inventory = add_inventory(session, book.title)
     new_book = models.Book(title = book.title, inv_id = new_inventory.id)
     session.add(new_book)
+    session.commit()
+    session.refresh(new_book)
 
-    return
+    return new_book
 
 
 def add_student(session: Session, student: schemas.StudentCreate):

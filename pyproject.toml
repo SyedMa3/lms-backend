@@ -7,6 +7,8 @@ authors = ["SyedMa3"]
 [tool.poetry.dependencies]
 python = "^3.10"
 SQLAlchemy = "^1.4.37"
+fastapi = "^0.78.0"
+uvicorn = "^0.17.6"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

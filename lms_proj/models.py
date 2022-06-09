@@ -7,7 +7,7 @@ Base = declarative_base()
 class Book(Base):
     __tablename__ = 'book'
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, index=True)
     title = Column(String(30))
     timesIssued = Column(Integer, default = 0)
     inv_id = Column(Integer, ForeignKey('inventory.id'))
@@ -20,7 +20,7 @@ class Book(Base):
 
 class Inventory(Base):
     __tablename__ = 'inventory'
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, index=True)
     title = Column(String(30))
     stock = Column(Integer, default=1)
     
@@ -32,7 +32,7 @@ class Inventory(Base):
 class Student(Base):
     __tablename__ = 'student'
 
-    rollNo = Column(Integer, primary_key=True)
+    rollNo = Column(Integer, primary_key=True, index=True)
     booksIssued = Column(Integer, default=0)
 
     issues = relationship('Issue', backref = 'student')
@@ -43,7 +43,7 @@ class Student(Base):
 class Issue(Base):
     __tablename__ = 'issue'
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, index=True)
     title = Column(String(30))
     book_id = Column(Integer, ForeignKey('book.id'))
     issuedBy = Column(Integer, ForeignKey('student.rollNo'))

@@ -1,15 +1,19 @@
-from sqlalchemy import create_engine
+from . import models, crud, schemas
+from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
-from lms_proj.models import Base
+from database import create_session, engine
 
-from fastapi import FastAPI
-
-engine = create_engine('mysql://root:password@localhost/lms', echo=True)
-Base.metadata.create_all(engine)
-
+models.Base.metadata.create_all(engine)
 
 app = FastAPI()
 
-@app.post('/book')
-async def addBook():
-    return {'message': 'Hello World'}
+def get_session():
+    session = create_session()
+    try:
+        yield session
+    finally:
+        session.close()
+
+@app.post('/book/', response_model=schemas.Book)
+async def add_book(book: schemas.BookCreate, session: Session = Depends(get_session)):
+    return crud.add_book(session=session, book=book)

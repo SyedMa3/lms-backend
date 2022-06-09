@@ -35,3 +35,7 @@ async def add_issue(issue: schemas.IssueCreate, session: Session = Depends(get_s
 @app.delete('/return/')
 async def remove_issue(issue: schemas.IssueCreate, session: Session = Depends(get_session)):
     return crud.return_book(session=session, issue=issue)
+
+@app.get('/popular/', response_model=list[schemas.Book],response_model_exclude={'id', 'inv_id'})
+async def get_popular(session: Session = Depends(get_session)):
+    return crud.popular_books(session=session)

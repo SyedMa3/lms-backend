@@ -1,4 +1,4 @@
-from sqlalchemy import update
+from sqlalchemy import update, desc
 from sqlalchemy.orm import Session
 from fastapi import HTTPException
 
@@ -100,3 +100,9 @@ def return_book(session: Session, issue: schemas.IssueCreate):
     session.commit()
 
     return
+
+def popular_books(session: Session):
+
+    books = session.query(models.Book).order_by(desc(models.Book.timesIssued)).limit(5).all()
+
+    return books

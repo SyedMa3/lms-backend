@@ -14,8 +14,8 @@ class Book(Base):
 
     issues = relationship('Issue', backref = 'book')
 
-    def __repr__(self):
-        return f'ID - {self.id}, Title - {self.title}, No. of Times Issued - {self.timesIssued}'
+    # def __repr__(self):
+    #     return f'ID - {self.id}, Title - {self.title}, No. of Times Issued - {self.timesIssued}'
 
 
 class Inventory(Base):

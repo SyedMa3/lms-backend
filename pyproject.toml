@@ -6,6 +6,7 @@ authors = ["SyedMa3"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+SQLAlchemy = "^1.4.37"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

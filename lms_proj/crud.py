@@ -1,5 +1,6 @@
 from sqlalchemy import update
 from sqlalchemy.orm import Session
+from fastapi import HTTPException
 
 from . import models, schemas
 
@@ -37,15 +38,65 @@ def add_student(session: Session, student: schemas.StudentCreate):
 
 def issue_book(session: Session, issue: schemas.IssueCreate):
     current_book = session.query(models.Book).filter(models.Book.title == issue.title).first()
+    
+    if current_book == None:
+        raise HTTPException(status_code=404, detail="Book not found")
+
     current_student = session.query(models.Student).\
         filter(models.Student.rollNo == issue.issuedBy).first()
+
+    if current_student == None:
+        raise HTTPException(status_code=404, detail="Book not found")
+
+    current_inventory = session.query(models.Inventory).\
+        filter(models.Inventory.id == current_book.inv_id).first()
+
+    if current_student.booksIssued == 3:
+        raise HTTPException(status_code=404, detail="Student can only hold 3 books")
+
+    if current_inventory.stock == 0:
+        raise HTTPException(status_code=404, detail="This book is currently not available")
+
+    current_inventory.stock -= 1
     current_book.timesIssued += 1
     current_student.booksIssued += 1
-    # print(current_book)
+    
     new_issue = models.Issue(title = issue.title,\
          book_id = current_book.id, issuedBy = current_student.rollNo)
 
     session.add(new_issue)
     session.commit()
+    session.refresh(new_issue)
     
+    return new_issue
+
+def return_book(session: Session, issue: schemas.IssueCreate):
+    current_book = session.query(models.Book).filter(models.Book.title == issue.title).first()
+    
+    if current_book == None:
+        raise HTTPException(status_code=404, detail="Book not found")
+
+    current_student = session.query(models.Student).\
+        filter(models.Student.rollNo == issue.issuedBy).first()
+
+    if current_student == None:
+        raise HTTPException(status_code=404, detail="Book not found")
+
+    current_inventory = session.query(models.Inventory).\
+        filter(models.Inventory.id == current_book.inv_id).first()
+
+    current_issue = session.query(models.Issue).\
+        filter(models.Issue.issuedBy == issue.issuedBy and models.Issue.title == issue.title).\
+            first()
+    
+    if current_issue == None:
+        raise HTTPException(status_code=404, detail="The student has not issued this book")
+    
+    current_inventory.stock += 1
+    current_student.booksIssued -= 1
+    
+
+    session.delete(current_issue)
+    session.commit()
+
     return

@@ -31,3 +31,7 @@ async def add_student(student: schemas.StudentCreate, session: Session = Depends
 @app.post('/issue/')
 async def add_issue(issue: schemas.IssueCreate, session: Session = Depends(get_session)):
     return crud.issue_book(session=session, issue=issue)
+
+@app.delete('/return/')
+async def remove_issue(issue: schemas.IssueCreate, session: Session = Depends(get_session)):
+    return crud.return_book(session=session, issue=issue)

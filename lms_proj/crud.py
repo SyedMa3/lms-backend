@@ -19,6 +19,12 @@ def add_book(session: Session, book: schemas.BookCreate):
 
     return new_book
 
+def get_book(session: Session, book: schemas.BookCreate):
+
+    current_book = session.query(models.Book).filter(models.Book.title == book.title).first()
+
+    if current_book:
+        raise HTTPException(status_code=400, detail="Book already present")
 
 def add_inventory(session: Session, title):
     """
@@ -51,6 +57,13 @@ def add_student(session: Session, student: schemas.StudentCreate):
 
     return new_student
 
+def get_student(session: Session, student: schemas.StudentCreate):
+
+    current_student = session.query(models.Student).filter(models.Student.rollNo == student.rollNo).first()
+
+    if current_student:
+        raise HTTPException(status_code=400, detail="Student already present")
+
 def issue_book(session: Session, issue: schemas.IssueCreate):
     """
     To issue a book by a given student
@@ -70,7 +83,7 @@ def issue_book(session: Session, issue: schemas.IssueCreate):
         filter(models.Inventory.id == current_book.inv_id).first()
 
     if current_student.booksIssued == 3:
-        raise HTTPException(status_code=404, detail="Student can only hold 3 books")
+        raise HTTPException(status_code=400, detail="Student can only hold 3 books")
 
     if current_inventory.stock == 0:
         raise HTTPException(status_code=404, detail="This book is currently not available")

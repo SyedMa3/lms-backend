@@ -27,3 +27,7 @@ async def update_inventory(title: str, stock: int, session: Session = Depends(ge
 @app.post('/student/', response_model=schemas.Student)
 async def add_student(student: schemas.StudentCreate, session: Session = Depends(get_session)):
     return crud.add_student(session=session, student=student)
+
+@app.post('/issue/')
+async def add_issue(issue: schemas.IssueCreate, session: Session = Depends(get_session)):
+    return crud.issue_book(session=session, issue=issue)

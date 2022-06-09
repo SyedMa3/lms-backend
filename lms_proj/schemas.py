@@ -28,6 +28,7 @@ class Student(StudentBase):
 
 class IssueBase(BaseModel):
     title: str
+    issuedBy: int
 
 class IssueCreate(IssueBase):
     pass
@@ -35,7 +36,6 @@ class IssueCreate(IssueBase):
 class Issue(IssueBase):
     id: int
     book_id: int
-    issuedBy: int
 
     class Config:
         orm_mode = True

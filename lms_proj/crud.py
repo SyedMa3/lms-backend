@@ -13,14 +13,6 @@ def add_book(session: Session, book: schemas.BookCreate):
     return new_book
 
 
-def add_student(session: Session, student: schemas.StudentCreate):
-    new_student = models.Student(rollNo = student.rollNo)
-    session.add(new_student)
-    session.commit()
-    session.refresh(new_student)
-
-    return new_student
-
 def add_inventory(session: Session, title):
     new_inventory = models.Inventory(title = title)
     session.add(new_inventory)
@@ -35,3 +27,25 @@ def update_inventory(session: Session, title: str, new_stock: int):
     session.commit()
     return
 
+def add_student(session: Session, student: schemas.StudentCreate):
+    new_student = models.Student(rollNo = student.rollNo)
+    session.add(new_student)
+    session.commit()
+    session.refresh(new_student)
+
+    return new_student
+
+def issue_book(session: Session, issue: schemas.IssueCreate):
+    current_book = session.query(models.Book).filter(models.Book.title == issue.title).first()
+    current_student = session.query(models.Student).\
+        filter(models.Student.rollNo == issue.issuedBy).first()
+    current_book.timesIssued += 1
+    current_student.booksIssued += 1
+    # print(current_book)
+    new_issue = models.Issue(title = issue.title,\
+         book_id = current_book.id, issuedBy = current_student.rollNo)
+
+    session.add(new_issue)
+    session.commit()
+    
+    return

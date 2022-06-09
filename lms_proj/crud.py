@@ -1,3 +1,4 @@
+from sqlalchemy import update
 from sqlalchemy.orm import Session
 
 from . import models, schemas
@@ -26,4 +27,10 @@ def add_inventory(session: Session, title):
     session.refresh(new_inventory)
 
     return new_inventory
+
+def update_inventory(session: Session, title: str, new_stock: int):
+    session.query(models.Inventory).filter(models.Inventory.title == title).\
+        update({models.Inventory.stock: new_stock})
+    session.commit()
+    return
 

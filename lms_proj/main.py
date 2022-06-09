@@ -17,3 +17,9 @@ def get_session():
 @app.post('/book/', response_model=schemas.Book)
 async def add_book(book: schemas.BookCreate, session: Session = Depends(get_session)):
     return crud.add_book(session=session, book=book)
+
+@app.post('/inventory/')
+async def update_inventory(title: str, stock: int, session: Session = Depends(get_session)):
+    crud.update_inventory(title=title, new_stock=stock, session=session)
+
+    return

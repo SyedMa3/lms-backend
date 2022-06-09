@@ -1,9 +1,6 @@
-from email.policy import default
-from sqlalchemy import ForeignKey, create_engine
+from sqlalchemy import ForeignKey
 from sqlalchemy.orm import declarative_base, relationship
 from sqlalchemy import Column, Integer, String
-
-engine = create_engine('mysql://root:password@localhost/lms', echo=True)
 
 Base = declarative_base()
 
@@ -11,18 +8,26 @@ class Book(Base):
     __tablename__ = 'book'
 
     id = Column(Integer, primary_key=True)
-    title = Column(String, nullable = False, ForeignKey = 'inventory.title')
+    title = Column(String(30))
     timesIssued = Column(Integer, default = 0)
+    inv_id = Column(Integer, ForeignKey('inventory.id'))
 
-    inInventory = relationship('Inventory', backref = 'book')
     issues = relationship('Issue', backref = 'book')
+
+    def __repr__(self):
+        return f'ID - {self.id}, Title - {self.title}, No. of Times Issued - {self.timesIssued}'
 
 
 class Inventory(Base):
     __tablename__ = 'inventory'
-
-    title = Column(String, primary_key=True)
+    id = Column(Integer, primary_key=True)
+    title = Column(String(30))
     stock = Column(Integer, default=1)
+    
+    books = relationship('Book', backref = 'inventory')
+
+    def __repr__(self):
+        return f'ID - {self.id}, Title - {self.title}, Stock - {self.stock}'
 
 class Student(Base):
     __tablename__ = 'student'
@@ -32,9 +37,17 @@ class Student(Base):
 
     issues = relationship('Issue', backref = 'student')
 
+    def __repr__(self):
+        return f'Roll No - {self.rollNo}, No. of Books Issued Currently - {self.booksIssued}'
+
 class Issue(Base):
     __tablename__ = 'issue'
 
     id = Column(Integer, primary_key=True)
-    title = Column(String, nullable = False, ForeignKey = 'book.title')
-    issuedBy = Column(Integer, ForeignKey='student.rollNo')
+    title = Column(String(30))
+    book_id = Column(Integer, ForeignKey('book.id'))
+    issuedBy = Column(Integer, ForeignKey('student.rollNo'))
+
+    def __repr__(self):
+        return f'ID - {self.id}, Title - {self.title}, Issued By - {self.issuedBy}' 
+# Base.metadata.create_all(engine)

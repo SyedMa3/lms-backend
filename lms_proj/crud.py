@@ -1,3 +1,6 @@
+"""
+    Functions for the features described in PDF
+"""
 from sqlalchemy import update, desc
 from sqlalchemy.orm import Session
 from fastapi import HTTPException
@@ -5,6 +8,9 @@ from fastapi import HTTPException
 from . import models, schemas
 
 def add_book(session: Session, book: schemas.BookCreate):
+    """
+    Adds a book entry
+    """
     new_inventory = add_inventory(session, book.title)
     new_book = models.Book(title = book.title, inv_id = new_inventory.id)
     session.add(new_book)
@@ -15,6 +21,9 @@ def add_book(session: Session, book: schemas.BookCreate):
 
 
 def add_inventory(session: Session, title):
+    """
+    Adds the book to the inventory table
+    """
     new_inventory = models.Inventory(title = title)
     session.add(new_inventory)
     session.commit()
@@ -23,12 +32,18 @@ def add_inventory(session: Session, title):
     return new_inventory
 
 def update_inventory(session: Session, title: str, new_stock: int):
+    """
+    To Update the stock of the given book
+    """
     session.query(models.Inventory).filter(models.Inventory.title == title).\
         update({models.Inventory.stock: new_stock})
     session.commit()
     return
 
 def add_student(session: Session, student: schemas.StudentCreate):
+    """
+    To add a student to the database
+    """
     new_student = models.Student(rollNo = student.rollNo)
     session.add(new_student)
     session.commit()
@@ -37,6 +52,9 @@ def add_student(session: Session, student: schemas.StudentCreate):
     return new_student
 
 def issue_book(session: Session, issue: schemas.IssueCreate):
+    """
+    To issue a book by a given student
+    """
     current_book = session.query(models.Book).filter(models.Book.title == issue.title).first()
     
     if current_book == None:
@@ -46,7 +64,7 @@ def issue_book(session: Session, issue: schemas.IssueCreate):
         filter(models.Student.rollNo == issue.issuedBy).first()
 
     if current_student == None:
-        raise HTTPException(status_code=404, detail="Book not found")
+        raise HTTPException(status_code=404, detail="Student not found")
 
     current_inventory = session.query(models.Inventory).\
         filter(models.Inventory.id == current_book.inv_id).first()
@@ -71,6 +89,9 @@ def issue_book(session: Session, issue: schemas.IssueCreate):
     return new_issue
 
 def return_book(session: Session, issue: schemas.IssueCreate):
+    """
+    To return a given book by a given student
+    """
     current_book = session.query(models.Book).filter(models.Book.title == issue.title).first()
     
     if current_book == None:
@@ -80,7 +101,7 @@ def return_book(session: Session, issue: schemas.IssueCreate):
         filter(models.Student.rollNo == issue.issuedBy).first()
 
     if current_student == None:
-        raise HTTPException(status_code=404, detail="Book not found")
+        raise HTTPException(status_code=404, detail="Student not found")
 
     current_inventory = session.query(models.Inventory).\
         filter(models.Inventory.id == current_book.inv_id).first()
@@ -102,6 +123,9 @@ def return_book(session: Session, issue: schemas.IssueCreate):
     return
 
 def popular_books(session: Session):
+    """
+    To display the top 5 issued books
+    """
 
     books = session.query(models.Book).order_by(desc(models.Book.timesIssued)).limit(5).all()
 

@@ -1,3 +1,6 @@
+"""
+    Models for creating the tables
+"""
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import declarative_base, relationship
 from sqlalchemy import Column, Integer, String
@@ -14,8 +17,8 @@ class Book(Base):
 
     issues = relationship('Issue', backref = 'book')
 
-    # def __repr__(self):
-    #     return f'ID - {self.id}, Title - {self.title}, No. of Times Issued - {self.timesIssued}'
+    def __repr__(self):
+        return f'ID - {self.id}, Title - {self.title}, No. of Times Issued - {self.timesIssued}'
 
 
 class Inventory(Base):
@@ -50,4 +53,3 @@ class Issue(Base):
 
     def __repr__(self):
         return f'ID - {self.id}, Title - {self.title}, Issued By - {self.issuedBy}' 
-# Base.metadata.create_all(engine)

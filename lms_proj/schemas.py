@@ -1,3 +1,6 @@
+"""
+    For maintaining the schemas of the tables for Pydantic
+"""
 from pydantic import BaseModel
 
 class BookBase(BaseModel):

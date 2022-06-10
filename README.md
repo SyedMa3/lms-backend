@@ -54,3 +54,49 @@ It contains four tables.
 -   `schemas.py` - Schemas of the models for Pydantic's use
 -   `database.py` - To configure the database
 -   `crud.py` - Does all the operations given in PDF
+
+## APIs:
+
+-   POST  - `/book/`
+    ```
+    {
+        "title": "string"
+    }
+    ```
+
+-   POST - `/inventory/`
+    ```
+    {
+        "title": "string",
+        "stock": 0
+    }
+    ```
+
+-   POST - `/student/`
+    ```
+    {
+        rollNo: 0
+    }
+    ```
+
+-   POST - `/issue/`
+    ```
+    {
+    "title": "string",
+    "issuedBy": 0
+    }
+    ```
+
+-   DELETE - `/return/`
+    ```
+    {
+    "title": "string",
+    "issuedBy": 0
+    }
+    ```
+
+-   GET `/popular/`
+
+
+
+Note: http://127.0.0.1:8000/docs for trying out API

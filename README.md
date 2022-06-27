@@ -1,7 +1,16 @@
 # Library Management - Backend
+A small backend application of school library management system.
+### Features:
+- New books can be added.
+- New Students can be added.
+- Books inventory can be updated.
+- Students can issue books and return them.
+- A student can hold max 3 books.
 
-## To run the application:
+---
+## Getting Started
 
+### Prerequisites
 -   You need to have [Poetry](https://python-poetry.org/) installed on your system
 
 -   ```bash
@@ -20,7 +29,7 @@
     --reload is not used in production
     ```
 
-
+---
 ## Structure of database:
 
 It contains four tables.
@@ -46,15 +55,16 @@ It contains four tables.
     -   book_id : Foreign Key to Book table
     -   issuedBy : Foreign  Key to Student table
 
-
+---
 ## Structure of Application:
 
--   `main.py` - Deals with routing,
+-   [main.py](lms_proj/main.py) - Deals with routing,
 -   `models.py` - To declare classes to create tables from ORM
 -   `schemas.py` - Schemas of the models for Pydantic's use
 -   `database.py` - To configure the database
--   `crud.py` - Does all the operations given in PDF
+-   `crud.py` - Handles the CRUD operations
 
+---
 ## APIs:
 
 -   POST  - `/book/`
@@ -97,6 +107,12 @@ It contains four tables.
 
 -   GET `/popular/`
 
-
-
 Note: http://127.0.0.1:8000/docs for trying out API
+
+---
+## Built With
+- [Python](www.google.com)
+- [FastAPI](https://fastapi.tiangolo.com/) - Web framework for building API
+- [SQLAlchemy](https://www.sqlalchemy.org/) - MySQL ORM for Python
+- [Pydantic](https://pydantic-docs.helpmanual.io/) - Data validation
+- [Poetry](https://python-poetry.org/) - Dependency management and packagin in python

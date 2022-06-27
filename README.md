@@ -21,13 +21,12 @@ A small backend application of school library management system.
 
 - Make sure you have created a database you mentioned above
 
--   ```
+-   Run this command to start the server. 
+    ```
     poetry run uvicorn lms_proj.main:app --reload
     ```
-    Run this command to start the server. 
-    ```
     --reload is not used in production
-    ```
+    
 
 ---
 ## Structure of database:

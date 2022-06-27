@@ -13,17 +13,17 @@ A small backend application of school library management system.
 ### Prerequisites
 -   You need to have [Poetry](https://python-poetry.org/) installed on your system
 
--   ```bash
+-   ```
     poetry install
     ```
 
-- The application currently uses MySQL. You can configure the database connection in `database.py` using `SQLALCHEMY_DATABASE_URL`
+- The application currently uses MySQL. You can configure the database connection in [database.py](lms_proj/database.py) using `SQLALCHEMY_DATABASE_URL`
 
 - Make sure you have created a database you mentioned above
 
--   ```bash
+-   ```
     poetry run uvicorn lms_proj.main:app --reload
-     ```
+    ```
     Run this command to start the server. 
     ```
     --reload is not used in production
@@ -59,23 +59,23 @@ It contains four tables.
 ## Structure of Application:
 
 -   [main.py](lms_proj/main.py) - Deals with routing,
--   `models.py` - To declare classes to create tables from ORM
--   `schemas.py` - Schemas of the models for Pydantic's use
--   `database.py` - To configure the database
--   `crud.py` - Handles the CRUD operations
+-   [models.py](lms_proj/models.py) - To declare classes to create tables from ORM
+-   [schemas.py](lms_proj/schemas.py) - Schemas of the models for Pydantic's use
+-   [database.py](lms_proj/database.py) - To configure the database
+-   [crud.py](lms_proj/crud.py) - Handles the CRUD operations
 
 ---
 ## APIs:
 
 -   POST  - `/book/`
-    ```
+    ```json
     {
         "title": "string"
     }
     ```
 
 -   POST - `/inventory/`
-    ```
+    ```json
     {
         "title": "string",
         "stock": 0
@@ -83,31 +83,31 @@ It contains four tables.
     ```
 
 -   POST - `/student/`
-    ```
+    ```json
     {
         rollNo: 0
     }
     ```
 
 -   POST - `/issue/`
-    ```
+    ```json
     {
-    "title": "string",
-    "issuedBy": 0
+        "title": "string",
+        "issuedBy": 0
     }
     ```
 
 -   DELETE - `/return/`
-    ```
+    ```json
     {
-    "title": "string",
-    "issuedBy": 0
+        "title": "string",
+        "issuedBy": 0
     }
     ```
 
 -   GET `/popular/`
 
-Note: http://127.0.0.1:8000/docs for trying out API
+Note: http://127.0.0.1:8000/docs for trying out the API
 
 ---
 ## Built With
